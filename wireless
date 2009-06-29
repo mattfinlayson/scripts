@@ -1,0 +1,23 @@
+#!/bin/sh
+if  [ -f /var/run/dhcpcd-wlan0.pid ]
+then
+
+	echo 'Killing dhcpcd'
+	sudo dhcpcd wlan0 -k
+	sudo ifconfig eth0 down
+	sudo ifconfig wlan0 up
+	echo 'Starting connection to' $1
+        sudo netcfg2 $1
+	sudo dhcpcd wlan0
+	echo 'Connected to' $1
+	/usr/bin/notify-send 'Connected to' $1
+else
+	echo 'Starting connection to' $1
+	sudo ifconfig eth0 down
+	sudo ifconfig wlan0 up
+	sudo netcfg2 $1
+	sudo dhcpcd wlan0
+	echo 'Connected to' $1
+	/usr/bin/notify-send 'Connected to' $1
+
+fi
