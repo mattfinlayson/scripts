@@ -1,0 +1,28 @@
+#!/bin/bash
+ 
+NAME="tpacpi_bluetooth_sw"
+ 
+find_by_name() {
+        NAME="$1"
+        test -z "${NAME}" && return 1
+        SYSFS_NAME=$(find -P /sys -name name -path "*/rfkill/*" -exec grep -l "${NAME}" \{\} + | head -n 1)
+        if [[ ! -z "${SYSFS_NAME}" && -r "${SYSFS_NAME/%name/state}" ]]; then
+                RESULT=${SYSFS_NAME%%/name}
+                echo $RESULT
+                return 0
+        fi
+        return 1
+}
+ 
+SYSFS="$(find_by_name "${NAME}")"
+ 
+if [[ ! -z "${SYSFS}" && -r "${SYSFS}/state" ]]; then
+        case "$(cat "${SYSFS}/state")" in
+                0)
+                        echo 1 > "${SYSFS}/state"
+                        ;;
+                1)
+                        echo 0 > "${SYSFS}/state"
+                        ;;
+        esac
+fi
