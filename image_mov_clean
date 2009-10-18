@@ -1,0 +1,13 @@
+#!/bin/bash
+
+mmv "*.JPG" "#1.jpg"
+mmv "IMG_0*" "#1"
+mmv "IMG_1*" "1#1"
+
+mmv "img_0*" "#1"
+mmv "img_1*" "1#1"
+
+mmv "*.AVI" "#1.avi"
+mmv "MVI_0*" "#1"
+
+chmod 755 *

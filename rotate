@@ -1,0 +1,10 @@
+if ! [ -e ~/.lcd-rotation ]; 
+then echo 0 > ~/.lcd-rotation; 
+fi;  curr=$(cat ~/.lcd-rotation);  
+
+new=$(( (curr +1) % 4 ));  
+
+/home/fsk141/.scripts/rotate1 "$new";  
+
+echo "$new" > ~/.lcd-rotation;
+ 
