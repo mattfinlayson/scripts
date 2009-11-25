@@ -1,0 +1,1 @@
+perl -MDevice::SerialPort -e 'Device::SerialPort->new("/dev/ttyUSB0")->pulse_dtr_on(1000)';

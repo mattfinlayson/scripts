@@ -1,1 +1,1 @@
-s2ram -f
+s2ram -f -a1
