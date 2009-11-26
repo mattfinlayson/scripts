@@ -917,8 +917,8 @@ upload_autoreset: do_autoreset upload
 
 do_autoreset:
 \t@echo Sending reset to prepare for upload...
-\tstty -F $(PORT) hupcl || true
-\t~/.scripts/dtr || true
+#\tstty -F $(PORT) hupcl || true
+\tperl -MDevice::SerialPort -e "Device::SerialPort->new(\"$(PORT)\")->pulse_dtr_on(1000);"
 \t@echo
 
 $(APPC): applet/%.o: %.c
