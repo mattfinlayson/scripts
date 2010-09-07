@@ -28,7 +28,7 @@
 SDIR="$HOME/.chapod"
 
 # Screen Resolution
-RESOLUTION="1280x800"
+RESOLUTION="1920x1200"
 
 # Raw Calvin & Hobbes foreground
 RAWCH="http://dl.dropbox.com/u/52078/chblank.png"
