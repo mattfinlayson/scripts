@@ -63,7 +63,7 @@ rm $SDIR/tmp.*
 
 # Now lets set the background
 if [[ $OS == "Darwin" ]]; then
-	defaults write com.apple.Desktop Background "{default = {ChangePath = "$HOME/Pictures/Wallpapers"; ChooseFolderPath = "$HOME/Pictures/Wallpapers"; CollectionString = Wallpapers; ImageFileAlias = <00000000 00e00003 00000000 c2cc314a 0000482b 00000000 00089e0c 001be568 0000c2fe 8ab30000 00000920 fffe0000 00000000 0000ffff ffff0001 00100008 9e0c0007 4cea0007 4cb40013 52b2000e 00260012 00740068 00650065 006d0070 00690072 0065005f 00310036 00380030 002e006a 00700067 000f001a 000c004d 00610063 0069006e 0074006f 00730068 00200048 00440012 00355573 6572732f 6b726963 68617264 2f506963 74757265 732f5761 6c6c7061 70657273 2f746865 656d7069 72655f31 3638302e 6a706700 00130001 2f000015 0002000f ffff0000 >; ImageFilePath = "$SDIR/chapod.jpg"; Placement = Crop; TimerPopUpTag = 6; };}"
+	defaults write com.apple.desktop Background "{default = {ImageFilePath = "$SDIR/chapod.jpg"; };}"
 	killall Dock
 else
 	feh --bg-scale $SDIR/chapod.jpg &
