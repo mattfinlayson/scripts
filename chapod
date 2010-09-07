@@ -33,7 +33,7 @@ RESOLUTION="1280x800"
 URL="http://apod.nasa.gov/apod/"
 IMAGEPATH=`curl $URL 2>/dev/null | grep IMG | cut -d\" -f2`
 RAWCH="http://dl.dropbox.com/u/52078/chblank.png"
-APOD="$URL$IMAGEPATH"
+APOD="$URL${IMAGEPATH%.jpg}`echo "_big.jpg"`"
 OS=`uname -s`
 
 # Make SDIR
@@ -59,6 +59,7 @@ done
 
 # Lets join them together
 convert $SDIR/{tmp.apod.jpg,tmp.chblank.png} -mosaic $SDIR/chapod.jpg
+rm $SDIR/tmp.*
 
 # Now lets set the background
 if [[ $OS == "Darwin" ]]; then
