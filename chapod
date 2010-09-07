@@ -2,7 +2,7 @@
 
 #################################################
 #           Calvin & Hobbes APOD                #
-#           Version 1                           #
+#           Version 1.awesome                   #
 #################################################
 
 #///////////////////////////////////////////////#
@@ -73,16 +73,20 @@ for image in apod.jpg chblank.png
 done
 
 # Lets join them together
-if [[ -e $SDIR/chapod.jpg ]]; then
+if [[ -e $SDIR/chapod.jpg ]]; then 
 	rm $SDIR/chapod.jpg
+	CHA="chapod1.jpg"
+	convert $SDIR/{tmp.apod.jpg,tmp.chblank.png} -mosaic $SDIR/chapod1.jpg
+else
+	CHA="chapod.jpg"
+	convert $SDIR/{tmp.apod.jpg,tmp.chblank.png} -mosaic $SDIR/chapod.jpg
 fi
 
-convert $SDIR/{tmp.apod.jpg,tmp.chblank.png} -mosaic $SDIR/chapod.jpg
 rm $SDIR/tmp.*
 
 # Now lets set the background
 if [[ $OS == "Darwin" ]]; then
-	osascript -e "tell application \"System Events\" to set picture of every desktop to \"$SDIR/chapod.jpg\""
+	osascript -e "tell application \"System Events\" to set picture of every desktop to \"$SDIR/$CHA\""
 else
-	feh --bg-scale $SDIR/chapod.jpg &
+	feh --bg-scale $SDIR/chapod*.jpg &
 fi
