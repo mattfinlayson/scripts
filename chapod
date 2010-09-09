@@ -69,17 +69,17 @@ curl $APOD -o $SDIR/apod.jpg 2>/dev/null
 
 # Resize raw C&H image & apod
 for image in apod.jpg chblank.png
-	do convert $SDIR/$image -background transparent -resize $RESOLUTION^ -gravity south -extent $RESOLUTION $SDIR/tmp.$image
+	do /opt/local/bin/convert $SDIR/$image -background transparent -resize $RESOLUTION^ -gravity south -extent $RESOLUTION $SDIR/tmp.$image
 done
 
 # Lets join them together
 if [[ -e $SDIR/chapod.jpg ]]; then 
 	rm $SDIR/chapod.jpg
 	CHA="chapod1.jpg"
-	convert $SDIR/{tmp.apod.jpg,tmp.chblank.png} -mosaic $SDIR/chapod1.jpg
+	/opt/local/bin/convert $SDIR/{tmp.apod.jpg,tmp.chblank.png} -mosaic $SDIR/chapod1.jpg
 else
 	CHA="chapod.jpg"
-	convert $SDIR/{tmp.apod.jpg,tmp.chblank.png} -mosaic $SDIR/chapod.jpg
+	/opt/local/bin/convert $SDIR/{tmp.apod.jpg,tmp.chblank.png} -mosaic $SDIR/chapod.jpg
 fi
 
 rm $SDIR/tmp.*
