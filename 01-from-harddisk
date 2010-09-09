@@ -1,0 +1,17 @@
+#!/bin/sh
+
+artist="`/usr/local/bin/mpc --format '%artist%' | head -n 1 | tr -d '\n'`";
+title="`/usr/local/bin/mpc --format '%title%' | head -n 1 | tr -d '\n'`";
+
+groupTitle="$artist - $title"
+
+#echo $groupTitle
+
+#cat "/Users/jgerold/.lyrics/$groupTitle.txt"
+
+if [[ -f "/Users/jgerold/.lyrics/$groupTitle.txt" ]]; then
+	/bin/cat "/Users/jgerold/.lyrics/$groupTitle.txt"
+else
+	/opt/local/bin/perl /Users/jgerold/.scripts/02-from-lyrics-wikia-com.pl
+	/bin/cat "/Users/jgerold/.lyrics/$groupTitle.txt"
+fi
