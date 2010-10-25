@@ -40,7 +40,7 @@ BURL="http://apod.nasa.gov/apod/"
 OS=`uname -s`
 
 # Where is convert
-CONVERT=`which convert`
+CONVERT="`which convert`"
 
 # If a url is specified use that, otherwise use apod
 if [[ -n "$1" ]]; then
