@@ -40,7 +40,7 @@ BURL="http://apod.nasa.gov/apod/"
 OS=`uname -s`
 
 # Where is convert
-CONVERT="`which convert`"
+CONVERT=`which convert`
 
 # If a url is specified use that, otherwise use apod
 if [[ -n "$1" ]]; then
@@ -72,17 +72,17 @@ curl $APOD -o $SDIR/apod.jpg 2>/dev/null
 
 # Resize raw C&H image & apod
 for image in apod.jpg chblank.png
-	do $CONVERT $SDIR/$image -background transparent -resize $RESOLUTION^ -gravity south -extent $RESOLUTION $SDIR/tmp.$image
+	do $CONVERT "$SDIR/$image" -background transparent -resize $RESOLUTION^ -gravity south -extent $RESOLUTION "$SDIR/tmp.$image"
 done
 
 # Lets join them together
 if [[ -e $SDIR/chapod.jpg ]]; then 
 	rm $SDIR/chapod.jpg
 	CHA="chapod1.jpg"
-	$CONVERT $SDIR/{tmp.apod.jpg,tmp.chblank.png} -mosaic $SDIR/chapod1.jpg
+	$CONVERT "$SDIR/{tmp.apod.jpg,tmp.chblank.png}" -mosaic "$SDIR/chapod1.jpg"
 else
 	CHA="chapod.jpg"
-	$CONVERT $SDIR/{tmp.apod.jpg,tmp.chblank.png} -mosaic $SDIR/chapod.jpg
+	$CONVERT "$SDIR/{tmp.apod.jpg,tmp.chblank.png}" -mosaic "$SDIR/chapod.jpg"
 fi
 
 rm $SDIR/tmp.*
