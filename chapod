@@ -2,7 +2,7 @@
 
 #################################################
 #           Calvin & Hobbes APOD                #
-#           Version 1.1 (linux fixes)           #
+#           Version 1.2 (stupid convert)        #
 #################################################
 
 #///////////////////////////////////////////////#
@@ -40,8 +40,14 @@ BURL="http://apod.nasa.gov/apod/"
 OS=`uname -s`
 
 # Where is convert
-#CONVERT="/usr/local/bin/convert"
-CONVERT="`which convert`"
+if [["$OS" == Darwin]]; then
+	if [[ -x /usr/local/bin/brew ]]; then   
+		CONVERT="/usr/local/bin/convert"
+		## prolly should put in an else for macports
+	fi
+else
+	CONVERT="/usr/bin/convert"
+fi
 
 # If a url is specified use that, otherwise use apod
 if [[ -n "$1" ]]; then
