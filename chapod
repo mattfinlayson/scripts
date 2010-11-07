@@ -40,7 +40,7 @@ BURL="http://apod.nasa.gov/apod/"
 OS=`uname -s`
 
 # Where is convert
-if [["$OS" == Darwin]]; then
+if [[ "$OS" == "Darwin" ]]; then
 	if [[ -x /usr/local/bin/brew ]]; then   
 		CONVERT="/usr/local/bin/convert"
 		## prolly should put in an else for macports
