@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Set auto power management to /sys/devices
+for power in `find /sys/devices/pci* -name "control" | grep power`
+	do echo "auto" > $power
+done
+
+# VM longer writeback time
+echo 1500 > /proc/sys/vm/dirty_writeback_centisecs
+
+# Enable Laptop Mode
+echo 5 > /proc/sys/vm/laptop_mode
+
+# HDD Power Saving
+for hdd in /sys/class/scsi_host/host{0..5}/link_power_management_policy
+	do echo "min_power" > $hdd
+done
+
+# USB autosuspend
+for usb in /sys/bus/usb/devices/*/power/autosuspend
+	do echo "10" > $usb
+done
+
+# USB auto Power Management
+for usbp in /sys/bus/usb/devices/*/power/level
+	do echo "auto" > $usbp
+done
+
+# Audio Power Save
+echo 1 > /sys/module/snd_hda_intel/parameters/power_save 
+
+# Disable wake on lan
+ethtool -s eth0 wol d
+
+# Turn off Bluetooth
+echo 0 > /sys/devices/platform/thinkpad_acpi/bluetooth_enable
+modprobe -r bluetooth

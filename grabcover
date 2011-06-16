@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#Music Directory
+MDIR="$HOME/Music"
+
+#Current Song
+CSONG=$(/usr/bin/mpc current -f %file%)
+CSONG=${CSONG%/*}
+
+#Full Song Directory
+FDIR="$MDIR/$CSONG"
+
+COVER="$FDIR/folder.jpg"
+
+if [ -e $HOME/.cover.jpg ]; then
+	rm $HOME/.cover.jpg
+	cp "$COVER" ~/.cover.jpg
+else	
+	cp "$COVER" ~/.cover.jpg
+fi
+
+exit 0
