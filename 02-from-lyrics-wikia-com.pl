@@ -58,19 +58,19 @@ if ($response->is_success())
 	#print $heading, "\n", "=" x length($heading), "\n\n", $lyrics, "\n";
 	#print "$lyrics \n";
 
-	if (-e "/Users/jgerold/.lyrics/$heading.txt") {
-		#open( FILE, "< /Users/jgerold/.lyrics/$heading.txt" );
+	if (-e "/home/fsk141/.lyrics/$heading.txt") {
+		#open( FILE, "< /home/fsk141/.lyrics/$heading.txt" );
 		#while( <FILE> ) {
 		#	print;
 		#}
 		#close FILE;
 		print "";	
 	} else {
-		open (MYFILE, ">>/Users/jgerold/.lyrics/$heading.txt");
+		open (MYFILE, ">>/home/fsk141/.lyrics/$heading.txt");
 		print MYFILE "$lyrics \n";
 		close (MYFILE);
 
-		#open( FILE, "< /Users/jgerold/.lyrics/$heading.txt" );
+		#open( FILE, "< /home/fsk141/.lyrics/$heading.txt" );
 		#while( <FILE> ) {
 		#	print;
 		#}

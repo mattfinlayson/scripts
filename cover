@@ -1,12 +1,13 @@
 #!/bin/bash
 
-DEFAULT_COVER="/path/to/defaultcover.png"
+DEFAULT_COVER="defaultcover.png"
 
-MUSICDIR=`cat /etc/mpd.conf | grep -v "#" | grep music_directory | sed -e 's/"//g'`
+#MUSICDIR=`cat /etc/mpd.conf | grep -v "#" | grep music_directory | sed -e 's/"//g'`
+MUSICDIR="~/Music"
 MUSICDIR=${MUSICDIR:24}
 MUSICDIR=${MUSICDIR%/$}
 
-MFILE=`/usr/local/bin/mpc current -f %file%`
+MFILE=`/usr/bin/mpc current -f %file%`
 MFILE=${MFILE%/*}
 MFILE=${MFILE%/$}
 
@@ -34,6 +35,6 @@ else
 	COVERS="$TRYCOVERS"
 fi
 
-#echo -n "$COVERS"
+echo -n "$COVERS"
 cp "$COVERS" ~/.cover.jpg
 exit 0

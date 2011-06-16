@@ -28,7 +28,7 @@
 SDIR="$HOME/.chapod"
 
 # Screen Resolution
-RESOLUTION="1920x1200"
+RESOLUTION="1280x800"
 
 # Raw Calvin & Hobbes foreground
 RAWCH="http://dl.dropbox.com/u/52078/chblank.png"
@@ -42,11 +42,11 @@ OS=`uname -s`
 # Where is convert
 if [[ "$OS" == "Darwin" ]]; then
 	if [[ -x /usr/local/bin/brew ]]; then   
-		CONVERT="/usr/local/bin/convert"
+		IM="/usr/local/bin/convert"
 		## prolly should put in an else for macports
 	fi
 else
-	CONVERT="/usr/bin/convert"
+	IM="/usr/bin/convert"
 fi
 
 # If a url is specified use that, otherwise use apod
@@ -79,18 +79,11 @@ curl $APOD -o $SDIR/apod.jpg 2>/dev/null
 
 # Resize raw C&H image & apod
 for image in apod.jpg chblank.png
-	do $CONVERT $SDIR/$image -background transparent -resize $RESOLUTION^ -gravity south -extent $RESOLUTION $SDIR/tmp.$image
+	do $IM $SDIR/$image -background transparent -resize $RESOLUTION^ -gravity south -extent $RESOLUTION $SDIR/tmp.$image
 done
 
 # Lets join them together
-if [[ -e $SDIR/chapod.jpg ]]; then 
-	rm $SDIR/chapod.jpg
-	CHA="chapod1.jpg"
-	$CONVERT $SDIR/{tmp.apod.jpg,tmp.chblank.png} -mosaic $SDIR/chapod1.jpg
-else
-	CHA="chapod.jpg"
-	$CONVERT $SDIR/{tmp.apod.jpg,tmp.chblank.png} -mosaic $SDIR/chapod.jpg
-fi
+$IM $SDIR/{tmp.apod.jpg,tmp.chblank.png} -mosaic $SDIR/chapod.jpg
 
 rm $SDIR/tmp.*
 
@@ -98,5 +91,5 @@ rm $SDIR/tmp.*
 if [[ $OS == "Darwin" ]]; then
 	osascript -e "tell application \"System Events\" to set picture of every desktop to \"$SDIR/$CHA\""
 else
-	feh --bg-scale $SDIR/chapod*.jpg &
+	feh --bg-scale $SDIR/chapod.jpg &
 fi

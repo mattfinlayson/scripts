@@ -1,18 +1,30 @@
 #!/bin/sh
-if  [ -f /var/run/dhcpcd-wlan0.pid ]
-then
 
-	echo 'Killing dhcpcd'
-	sudo dhcpcd wlan0 -k
-	echo 'Starting connection to' "$1"
-        sudo iwconfig wlan0 mode Managed essid "$1" key $2
+# Kill dhcpcd if alive
+function kdhcpcd {
+	if  [ -f /var/run/dhcpcd-wlan0.pid ]; then
+		sudo dhcpcd wlan0 -k
+	fi
+}
+	
+function connect () {
+# Initiate connection
+	$(/usr/bin/notify-send 'Starting connection to' "$1")
+	echo -e "\n>> Starting connection to $1\n"
+	
+	sudo iwconfig wlan0 mode Managed essid "$1" key "$2"
+
+# DHCP an address
 	sudo dhcpcd wlan0
-	echo 'Connected to' "$1"
-	/usr/bin/notify-send 'Connected to' "$1"
+
+# Connected?
+	$(/usr/bin/notify-send 'Connected to' "$1")
+	echo -e "\n>> Connected to $1\n"
+}
+
+if [ -z "$1" -o "$1" == "-h" -o "$1" == "--help" ]; then
+	echo -e "Usage: connect [essid] [key]\n"
 else
-	echo 'Starting connection to' "$1"
-	sudo iwconfig wlan0 mode Managed essid "$1" key $2
-	sudo dhcpcd wlan0
-	echo 'Connected to' "$1"
-	/usr/bin/notify-send 'Connected to' "$1"
+	kdhcpcd
+	connect "$1" "$2"
 fi

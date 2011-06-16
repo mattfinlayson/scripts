@@ -9,22 +9,22 @@
 use strict;
 #use Encode         qw/encode/;
 
-my $artist = `/usr/local/bin/mpc --format '%artist%' | head -n 1 | tr -d '\n'`;
-my $title = `/usr/local/bin/mpc --format '%title%' | head -n 1 | tr -d '\n'`;
+my $artist = `mpc --format '%artist%' | head -n 1 | tr -d '\n'`;
+my $title = `mpc --format '%title%' | head -n 1 | tr -d '\n'`;
 
 my $heading = "$artist - $title";
 
-	if (-e "/Users/jgerold/.lyrics/$heading.txt") {
-		open( FILE, "< /Users/jgerold/.lyrics/$heading.txt" );
+	if (-e "/home/fsk141/.lyrics/$heading.txt") {
+		open( FILE, "< /home/fsk141/.lyrics/$heading.txt" );
 		while( <FILE> ) {
 			print;
 		}
 		close FILE;
 		print "";	
 	} else {
-		system("/Users/jgerold/.scripts/02-from-lyrics-wikia-com.pl");
+		system("/home/fsk141/.scripts/02-from-lyrics-wikia-com.pl");
 
-		open( FILE, "< /Users/jgerold/.lyrics/$heading.txt" );
+		open( FILE, "< /home/fsk141/.lyrics/$heading.txt" );
 		while( <FILE> ) {
 			print;
 		}
