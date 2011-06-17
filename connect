@@ -5,9 +5,20 @@ function kdhcpcd {
 	if  [ -f /var/run/dhcpcd-wlan0.pid ]; then
 		sudo dhcpcd wlan0 -k
 	fi
+
+	if [ -f /var/run/dhcpcd-eth0.pid ]; then
+		sudo dhcpcd eth0 -k
+	fi
 }
 	
-function connect () {
+function wep () {
+# Disconnect any active profiles
+	sudo netcfg -a
+	
+# Take down wired & bring up wireless
+	sudo ifconfig eth0 down
+	sudo ifconfig wlan0 up
+
 # Initiate connection
 	$(/usr/bin/notify-send 'Starting connection to' "$1")
 	echo -e "\n>> Starting connection to $1\n"
@@ -22,9 +33,64 @@ function connect () {
 	echo -e "\n>> Connected to $1\n"
 }
 
+function netcfg () {
+# Disconnect any active profiles
+	sudo netcfg -a
+
+# Take down wired & bring up wireless
+	sudo ifconfig eth0 down
+	sudo ifconfig wlan0 up
+
+# Connect to profile
+	$(/usr/bin/notify-send 'Starting connection to' "$1")
+	echo -e "\n>> Starting connection to $1\n"
+	sudo netcfg "$1"
+	
+# Connected?
+	$(/usr/bin/notify-send 'Connected to' "$1")
+	echo -e "\n>> Connected to $1\n"
+
+}
+
+function wired () {
+# Disconnect any active profiles
+    sudo netcfg -a
+
+# Take down wireless & bring up wired
+	sudo ifconfig wlan0 down
+	sudo ifconfig eth0 up
+
+# Connect to wired
+	$(/usr/bin/notify-send 'Starting connection to' "$1")
+	echo -e "\n>> Starting connection to $1\n"
+	
+# DHCP an address else use static
+	if [ -n "$2" ]; then
+		sudo ifconfig eth0 "$2"
+	else
+		sudo dhcpcd eth0
+	fi
+
+# Connected?
+	$(/usr/bin/notify-send 'Connected to' "$1")
+	echo -e "\n>> Connected to $1\n"
+}
+		
 if [ -z "$1" -o "$1" == "-h" -o "$1" == "--help" ]; then
-	echo -e "Usage: connect [essid] [key]\n"
-else
+	echo -e "Usage: *wep*    connect [essid] [key]\n       *wired*  connect wired [ip_address]\n       *netcfg* connect [profile]\n"
+fi
+
+if [ -n "$1" -a -z "$2" -a "$1" != "wired" ]; then
 	kdhcpcd
-	connect "$1" "$2"
+	netcfg "$1" 
+fi
+
+if [ -n "$1" -a -n "$2" ]; then
+	kdhcpcd
+	wep "$1" "$2"
+fi
+
+if [ "$1" == "wired" ]; then
+	kdhcpcd
+	wired "$1" "$2"
 fi
