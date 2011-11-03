@@ -5,6 +5,9 @@ for power in `find /sys/devices/pci* -name "control" | grep power`
 	do echo "auto" > $power
 done
 
+# Reset wireless for FULL power
+iwconfig wlan0 power off
+
 # VM longer writeback time
 echo 1500 > /proc/sys/vm/dirty_writeback_centisecs
 

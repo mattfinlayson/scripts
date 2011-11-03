@@ -1,0 +1,23 @@
+#!/bin/sh
+
+function wirelessap () {
+sudo ifconfig wlan0 down
+sudo iwconfig wlan0 mode ad-hoc
+sudo iwconfig wlan0 essid 'MPD'
+sudo iwconfig wlan0 key 1234567890
+sudo ifconfig wlan0 up
+sudo ifconfig wlan0 10.0.0.1
+sudo dhcpd wlan0
+}
+
+function killwirelessap () {
+sudo ifconfig wlan0 down
+sudo killall dhcpd
+}
+
+if [ "$1" == "start" ]; then
+	wirelessap
+fi
+if [ "$1" == "stop" ]; then
+	killwirelessap
+fi

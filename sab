@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#Super Awesome Backup -- simple calls to rsync aio
+
+# // Lets start with what we want to backup?
+HOME='/home/fsk141/'
+ETC='/etc/'
+
+# // Where do we want to backup to?
+BAKTO='/bakup/compressed'
+
+# // rsync options
+RO='ruzavi'
+
+if [[ -a $BAKTO/.imhere ]] ;then
+	#Do the backup
+	sudo rsync -$RO $HOME $BAKTO/home/fsk141/
+	sudo rsync -$RO $ETC $BAKTO/etc/
+else
+	echo "You're drive is missing!"
+fi
